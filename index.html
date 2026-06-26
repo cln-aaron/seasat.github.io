@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>SEASAT · Advocacy Workshop — Let's get to know you</title>
+<meta name="description" content="A quick, friendly get-to-know-you for the SEASAT Advocacy Leadership & Coalition Building workshop. Tell us about you and the causes you care about." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg-1:#06303a;
+    --bg-2:#0a4d5c;
+    --bg-3:#0e6e7a;
+    --accent:#26d3b4;
+    --accent-2:#ffd166;
+    --ink:#eafcff;
+    --ink-soft:#a9d7df;
+    --bubble:#ffffff;
+    --bubble-ink:#0c2b33;
+    --field:#f2fbfd;
+    --field-border:#cdeef2;
+    --danger:#ff7a85;
+    --radius:18px;
+    --shadow:0 18px 50px -18px rgba(0,0,0,.55);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family:'Plus Jakarta Sans',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    color:var(--ink);
+    background:radial-gradient(120% 120% at 80% 0%,var(--bg-3) 0%,var(--bg-2) 40%,var(--bg-1) 100%);
+    background-attachment:fixed;
+    overflow-x:hidden;
+    overflow-y:auto;
+  }
+  /* animated ocean blobs */
+  .ambient{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none;}
+  .ambient span{position:absolute;border-radius:50%;filter:blur(60px);opacity:.35;animation:float 18s ease-in-out infinite;}
+  .ambient span:nth-child(1){width:380px;height:380px;background:#1fd1b0;top:-90px;left:-60px;}
+  .ambient span:nth-child(2){width:320px;height:320px;background:#ffd166;bottom:-110px;right:-50px;animation-delay:-6s;}
+  .ambient span:nth-child(3){width:260px;height:260px;background:#3aa0ff;top:40%;right:18%;animation-delay:-11s;}
+  @keyframes float{0%,100%{transform:translateY(0) translateX(0) scale(1);}50%{transform:translateY(-26px) translateX(18px) scale(1.08);}}
+
+  /* progress */
+  .progress{position:fixed;top:0;left:0;height:5px;width:100%;z-index:10;background:rgba(255,255,255,.08);}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .5s cubic-bezier(.22,1,.36,1);box-shadow:0 0 14px var(--accent);}
+
+  /* header */
+  .topbar{position:fixed;top:14px;left:0;right:0;z-index:9;display:flex;align-items:center;justify-content:center;gap:10px;pointer-events:none;}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.14em;font-size:13px;color:var(--ink);text-shadow:0 1px 10px rgba(0,0,0,.4);}
+  .brand svg{width:26px;height:26px;}
+
+  /* stage */
+  .stage{position:relative;z-index:1;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:84px 20px 40px;}
+  .panel{width:100%;max-width:640px;}
+
+  /* chat bubble */
+  .botline{display:flex;gap:12px;align-items:flex-end;margin-bottom:14px;}
+  .avatar{flex:0 0 auto;width:44px;height:44px;border-radius:50%;background:linear-gradient(140deg,var(--accent),#0e6e7a);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);}
+  .avatar svg{width:26px;height:26px;}
+  .bubble{
+    background:var(--bubble);color:var(--bubble-ink);
+    padding:18px 20px;border-radius:6px var(--radius) var(--radius) var(--radius);
+    box-shadow:var(--shadow);max-width:100%;
+  }
+  .kicker{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#0e8f7e;margin:0 0 6px;}
+  .qtext{font-size:clamp(19px,3.4vw,25px);font-weight:700;line-height:1.32;margin:0;}
+  .qhelp{margin:10px 0 0;font-size:14.5px;line-height:1.5;color:#5a747b;}
+
+  /* typing indicator */
+  .typing{display:inline-flex;gap:5px;padding:16px 18px;}
+  .typing i{width:9px;height:9px;border-radius:50%;background:#9fc4cb;animation:blink 1.2s infinite ease-in-out;}
+  .typing i:nth-child(2){animation-delay:.18s;}
+  .typing i:nth-child(3){animation-delay:.36s;}
+  @keyframes blink{0%,80%,100%{opacity:.25;transform:translateY(0);}40%{opacity:1;transform:translateY(-4px);}}
+
+  /* answer area */
+  .answer{margin-left:56px;animation:rise .5s cubic-bezier(.22,1,.36,1) both;}
+  @keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+  input[type=text],input[type=email],input[type=tel],input[type=url],textarea{
+    width:100%;font-family:inherit;font-size:17px;color:var(--ink);
+    background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.18);
+    border-radius:14px;padding:15px 16px;outline:none;transition:border .2s,box-shadow .2s,background .2s;
+  }
+  input::placeholder,textarea::placeholder{color:rgba(234,252,255,.45);}
+  input:focus,textarea:focus{border-color:var(--accent);background:rgba(255,255,255,.1);box-shadow:0 0 0 4px rgba(38,211,180,.18);}
+  textarea{min-height:120px;resize:vertical;line-height:1.5;}
+
+  .choices{display:flex;flex-direction:column;gap:10px;}
+  .choice{
+    display:flex;align-items:center;gap:12px;width:100%;cursor:pointer;text-align:left;
+    background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.18);
+    border-radius:14px;padding:14px 16px;color:var(--ink);font-family:inherit;font-size:16.5px;font-weight:500;
+    transition:transform .12s,border .2s,background .2s;
+  }
+  .choice:hover{border-color:var(--accent);background:rgba(38,211,180,.12);transform:translateX(3px);}
+  .choice.sel{border-color:var(--accent);background:rgba(38,211,180,.2);box-shadow:0 0 0 3px rgba(38,211,180,.18);}
+  .choice .key{flex:0 0 auto;width:26px;height:26px;border-radius:7px;border:1.5px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--ink-soft);}
+  .choice.sel .key{background:var(--accent);border-color:var(--accent);color:#04353b;}
+  .choice .tick{margin-left:auto;opacity:0;transition:opacity .2s;}
+  .choice.sel .tick{opacity:1;}
+
+  /* scale */
+  .scale{display:flex;gap:10px;flex-wrap:wrap;}
+  .scale button{flex:1 1 0;min-width:54px;height:58px;border-radius:14px;border:1.5px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:var(--ink);font-size:19px;font-weight:700;cursor:pointer;transition:transform .12s,border .2s,background .2s;}
+  .scale button:hover{border-color:var(--accent);background:rgba(38,211,180,.14);transform:translateY(-3px);}
+  .scale button.sel{border-color:var(--accent);background:var(--accent);color:#04353b;}
+  .scalelabels{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-soft);margin-top:8px;padding:0 2px;}
+
+  /* contact grid */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .grid .full{grid-column:1 / -1;}
+  .field label{display:block;font-size:12.5px;font-weight:600;letter-spacing:.04em;color:var(--ink-soft);margin:0 0 6px 2px;}
+  .field .opt{font-weight:400;opacity:.7;}
+
+  /* controls */
+  .controls{display:flex;align-items:center;gap:12px;margin-top:18px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;cursor:pointer;font-family:inherit;font-weight:700;font-size:16px;
+    border:none;border-radius:13px;padding:13px 22px;color:#04353b;
+    background:linear-gradient(120deg,var(--accent),#39e6c2);box-shadow:0 12px 26px -10px rgba(38,211,180,.7);
+    transition:transform .12s,box-shadow .2s,opacity .2s;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;}
+  .btn.ghost{background:transparent;color:var(--ink-soft);box-shadow:none;padding:13px 14px;font-weight:600;}
+  .btn.ghost:hover{color:var(--ink);}
+  .hint{font-size:13px;color:var(--ink-soft);}
+  .hint kbd{background:rgba(255,255,255,.12);border-radius:5px;padding:2px 7px;font-family:inherit;font-size:12px;border:1px solid rgba(255,255,255,.15);}
+
+  .err{color:var(--danger);font-size:13.5px;margin-top:10px;font-weight:600;min-height:1px;}
+
+  /* statement / welcome / success */
+  .center{max-width:600px;text-align:left;}
+  .center .big{font-size:clamp(28px,6vw,46px);font-weight:800;line-height:1.1;margin:0 0 16px;letter-spacing:-.02em;}
+  .center .sub{font-size:17px;line-height:1.6;color:var(--ink-soft);margin:0 0 26px;}
+  .center .sub b{color:var(--ink);font-weight:700;}
+  .center .sub a{color:var(--accent);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(38,211,180,.5);transition:border .2s,color .2s;}
+  .center .sub a:hover{color:#5cf0d4;border-bottom-color:var(--accent);}
+  .meta{display:flex;gap:18px;flex-wrap:wrap;margin:0 0 28px;font-size:13.5px;color:var(--ink-soft);}
+  .meta span{display:inline-flex;align-items:center;gap:7px;}
+  .meta b{color:var(--ink);font-weight:700;}
+
+  .success-emoji{font-size:54px;margin-bottom:6px;animation:pop .6s cubic-bezier(.22,1.4,.4,1) both;}
+  @keyframes pop{from{transform:scale(.4);opacity:0;}to{transform:scale(1);opacity:1;}}
+
+  .spinner{width:20px;height:20px;border:3px solid rgba(4,53,59,.3);border-top-color:#04353b;border-radius:50%;animation:spin .7s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  @media(max-width:560px){
+    .answer{margin-left:0;}
+    .grid{grid-template-columns:1fr;}
+    .bubble{border-radius:6px 16px 16px 16px;}
+    .avatar{width:38px;height:38px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important;transition-duration:.05ms !important;}
+  }
+</style>
+</head>
+<body>
+  <div class="ambient"><span></span><span></span><span></span></div>
+  <div class="progress"><i id="bar"></i></div>
+  <div class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M2 17c2 0 2 1.5 4 1.5S10 17 12 17s2 1.5 4 1.5S20 17 22 17" stroke="#26d3b4" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M2 20c2 0 2 1.5 4 1.5S10 20 12 20s2 1.5 4 1.5S20 20 22 20" stroke="#ffd166" stroke-width="1.5" stroke-linecap="round" opacity=".8"/>
+        <circle cx="12" cy="8" r="3.2" stroke="#eafcff" stroke-width="1.8"/>
+        <path d="M12 4.8V2M12 11.2V13.5M8.8 8H6.5M17.5 8H15.2" stroke="#eafcff" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      SEASAT · ADVOCACY WORKSHOP
+    </div>
+  </div>
+
+  <main class="stage">
+    <div class="panel" id="panel"></div>
+  </main>
+
+<script>
+/* ============================================================================
+   SEASAT Advocacy Workshop — Get-to-know-you quiz
+   ----------------------------------------------------------------------------
+   1) Create a Formspree form at https://formspree.io  → copy your form ID.
+   2) Paste it below (the part after /f/ in your endpoint).
+   ----------------------------------------------------------------------------*/
+   const FORMSPREE_ID = "xaqgejzz";              // <-- e.g. "mzbqgwra"
+   const FORMSPREE_ENDPOINT = "https://formspree.io/f/" + FORMSPREE_ID;
+/* ==========================================================================*/
+
+const CAUSES = [
+  "Climate & environment","Education & schools","Mental health & wellbeing",
+  "Gender equality","Poverty & inequality","Human rights","Racial & social justice",
+  "Disability & inclusion","Refugees & migration","Animal welfare",
+  "Health & healthcare","Digital rights & technology","Arts, culture & heritage",
+  "Youth & community","Something else"
+];
+
+/* The conversation. type drives how each step renders. */
+const STEPS = [
+  { type:"statement", id:"welcome",
+    title:"Hi! I'm Aaron 👋",
+    sub:"I'm from the <b>Digital Defence Alliance Singapore</b> — say hi on <a href=\"https://www.linkedin.com/in/aaronangsg/\" target=\"_blank\" rel=\"noopener\">LinkedIn</a> or Instagram <a href=\"https://instagram.com/vibethlete\" target=\"_blank\" rel=\"noopener\">@vibethlete</a>. I'll be your facilitator for the <b>SEASAT 2026</b> workshops on Advocacy, Leadership, Coalition Building and envisioning our shared future together!<br><br>Before we meet, here's a quick get-to-know-you — about 3 minutes, no wrong answers. It just helps me make the sessions genuinely yours.",
+    meta:["⏱️ ~3 min","💬 Conversational","🔒 Only seen by the facilitators"],
+    cta:"Let's go" },
+
+  { type:"short_text", id:"first_name", kicker:"Hello there",
+    q:"First things first — what should I call you?",
+    placeholder:"Type your first name…", required:true },
+
+  { type:"short_text", id:"age_band", numeric:true,
+    q:"Lovely to meet you, {first_name}! How old are you?",
+    placeholder:"Enter your age…", required:true },
+
+  { type:"single", id:"current_role",
+    q:"Which of these sounds most like you right now?",
+    options:["In school / high school","At university or college","Working","Taking a gap year / figuring it out","Something else"] },
+
+  { type:"multi", id:"causes", max:3,
+    q:"Which causes pull at your heart the most?",
+    help:"Pick up to 3 — the ones you'd actually want to act on.",
+    options:CAUSES },
+
+  { type:"long_text", id:"community_change", required:true,
+    q:"If you could change one thing in your community tomorrow, what would it be?",
+    help:"Don't overthink it — first instinct is usually the honest one.",
+    placeholder:"I'd change…" },
+
+  { type:"long_text", id:"unfair_moment", required:false,
+    q:"Think of a moment you noticed something was unfair or wrong — big or small. What happened?",
+    help:"Totally optional. Share only what you're comfortable with — even a small, everyday moment is perfect.",
+    placeholder:"There was this time…" },
+
+  { type:"single", id:"experience",
+    q:"How would you describe your advocacy journey so far?",
+    options:["Just curious — brand new to this","I've dipped my toes in","I've been actively involved","I'm a seasoned organiser"] },
+
+  { type:"multi", id:"actions_taken",
+    q:"Have you done any of these before?",
+    help:"Pick all that apply — no judgement either way.",
+    options:["Signed a petition","Volunteered","Campaigned on social media","Helped organise an event","Fundraised","Spoke publicly about an issue","Started something of my own","Not yet — that's why I'm here"] },
+
+  { type:"scale", id:"focus_clarity", min:1, max:5,
+    q:"How clear are you on the specific issue you want to focus on?",
+    minLabel:"Totally scattered", maxLabel:"Crystal clear" },
+
+  { type:"scale", id:"speaking_comfort", min:1, max:5,
+    q:"And how do you feel about speaking up or pitching in front of others?",
+    minLabel:"Terrifies me", maxLabel:"I love it" },
+
+  { type:"long_text", id:"allies", required:false,
+    q:"Who's already in your corner, {first_name}?",
+    help:"Friends, family, teachers, clubs, online communities — anyone you'd count as an ally for your cause. Optional.",
+    placeholder:"People I'd count on…" },
+
+  { type:"multi", id:"goals",
+    q:"What do you most want to walk away with?",
+    help:"Pick whatever matters most to you.",
+    options:["A clear, focused cause that's truly mine","Confidence to speak and pitch","A personal story I can tell well","A plan and people to act with","To meet like-minded people","I'm open — surprise me"] },
+
+  { type:"long_text", id:"anything_else", required:false,
+    q:"Anything else you'd like me to know about you?",
+    help:"Something about you, what you're hoping for, or a question for me as your facilitator — or nothing at all. Optional.",
+    placeholder:"One more thing…" },
+
+  { type:"contact", id:"contact",
+    q:"Last step, {first_name} — where can we reach you?",
+    help:"So we can send joining details and stay in touch after the workshop.",
+    fields:[
+      { key:"full_name", label:"Full name", type:"text", required:true, ph:"Your full name", full:true },
+      { key:"country",   label:"Country", type:"text", required:true, ph:"e.g. Kenya" },
+      { key:"email",     label:"Email", type:"email", required:true, ph:"you@email.com" },
+      { key:"linkedin",  label:"LinkedIn", type:"url", required:false, ph:"linkedin.com/in/…", opt:true },
+      { key:"instagram", label:"Instagram", type:"text", required:false, ph:"@handle", opt:true }
+    ] },
+
+  { type:"success" }
+];
+
+/* ---- state ---- */
+const answers = {};
+let idx = 0;
+const panel = document.getElementById('panel');
+const bar = document.getElementById('bar');
+
+/* One managed keyboard handler for the current step. Re-set on every render so
+   listeners never leak across steps. Set to null = keyboard does nothing. */
+let activeKey = null;
+function setKey(fn){ activeKey = fn; }
+document.addEventListener('keydown', e=>{ if(activeKey) activeKey(e); });
+
+const AV = `<div class="avatar"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M3 16c1.6 0 1.6 1.2 3.2 1.2S9.4 16 11 16s1.6 1.2 3.2 1.2S17 16 18.6 16" stroke="#eafcff" stroke-width="1.6" stroke-linecap="round"/>
+  <circle cx="12" cy="8" r="3" stroke="#04353b" stroke-width="1.7"/>
+  <path d="M12 5.2V3.2M8.9 8H7M17 8H15.1" stroke="#04353b" stroke-width="1.5" stroke-linecap="round"/>
+</svg></div>`;
+
+function name(){ return (answers.first_name || "").trim().split(/\s+/)[0] || "friend"; }
+function fill(s){ return (s||"").replace(/\{first_name\}/g, escapeHtml(name())); }
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function setProgress(){
+  const total = STEPS.length - 1;
+  bar.style.width = Math.min(100, (idx/total)*100) + "%";
+}
+
+/* render with a brief "typing" beat for the chatbot feel */
+function render(){
+  setProgress();
+  activeKey = null;            // drop any previous step's key handler
+  const step = STEPS[idx];
+  panel.innerHTML = "";
+
+  if(step.type === "statement"){ return renderStatement(step); }
+  if(step.type === "success"){ return renderSuccess(); }
+
+  // bot bubble + typing, then reveal answer area
+  const wrap = document.createElement('div');
+  wrap.innerHTML = `
+    <div class="botline">
+      ${AV}
+      <div class="bubble" id="bubble"><div class="typing"><i></i><i></i><i></i></div></div>
+    </div>
+    <div class="answer" id="answer" style="display:none"></div>`;
+  panel.appendChild(wrap);
+
+  const delay = (idx===0?250:520);
+  setTimeout(()=>{
+    document.getElementById('bubble').innerHTML =
+      (step.kicker?`<p class="kicker">${escapeHtml(step.kicker)}</p>`:``) +
+      `<p class="qtext">${fill(step.q)}</p>` +
+      (step.help?`<p class="qhelp">${fill(step.help)}</p>`:``);
+    const a = document.getElementById('answer');
+    a.style.display = "block";
+    buildAnswer(step, a);
+  }, delay);
+}
+
+function controls(a, {showBack=true, primary=null}={}){
+  const bar = document.createElement('div');
+  bar.className = "controls";
+  if(showBack && idx>1){
+    const b = document.createElement('button');
+    b.className="btn ghost"; b.type="button"; b.innerHTML="↑ Back";
+    b.onclick = back;
+    bar.appendChild(b);
+  }
+  if(primary){
+    bar.appendChild(primary);
+    const h = document.createElement('span');
+    h.className="hint"; h.innerHTML = `press <kbd>Enter ↵</kbd>`;
+    bar.appendChild(h);
+  }
+  a.appendChild(bar);
+  return bar;
+}
+
+function makePrimary(label){
+  const btn = document.createElement('button');
+  btn.className="btn"; btn.type="button";
+  btn.innerHTML = `${label} <span aria-hidden="true">→</span>`;
+  return btn;
+}
+
+function errBox(a){
+  const e = document.createElement('div'); e.className="err"; e.id="err"; a.appendChild(e); return e;
+}
+function showErr(msg){ const e=document.getElementById('err'); if(e) e.textContent=msg||""; }
+
+/* ---------- answer renderers ---------- */
+function buildAnswer(step, a){
+  switch(step.type){
+    case "short_text":
+    case "long_text": return buildText(step,a);
+    case "single":     return buildSingle(step,a);
+    case "multi":      return buildMulti(step,a);
+    case "scale":      return buildScale(step,a);
+    case "contact":    return buildContact(step,a);
+  }
+}
+
+function buildText(step,a){
+  const long = step.type==="long_text";
+  const el = document.createElement(long?'textarea':'input');
+  if(!long) el.type="text";
+  if(step.numeric){ el.inputMode="numeric"; el.setAttribute('pattern','[0-9]*'); el.maxLength=3; }
+  el.placeholder = step.placeholder || "Type your answer…";
+  el.value = answers[step.id] || "";
+  a.appendChild(el);
+  errBox(a);
+  const primary = makePrimary(step.required?"OK":"OK");
+  primary.onclick = ()=>{
+    const v = el.value.trim();
+    if(step.required && !v){ showErr("A quick answer helps — even a few words."); el.focus(); return; }
+    if(step.numeric && v){
+      const n = parseInt(v,10);
+      if(isNaN(n) || !/^\d+$/.test(v) || n<5 || n>120){ showErr("Please enter your age as a number."); el.focus(); return; }
+    }
+    answers[step.id] = v; next();
+  };
+  controls(a,{primary});
+  el.addEventListener('keydown', e=>{
+    if(e.key==="Enter" && (!long || (!e.shiftKey))){ e.preventDefault(); primary.click(); }
+  });
+  setTimeout(()=>el.focus(),60);
+}
+
+function buildSingle(step,a){
+  const box = document.createElement('div'); box.className="choices";
+  step.options.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className="choice"+(answers[step.id]===opt?" sel":"");
+    b.type="button";
+    b.innerHTML = `<span class="key">${String.fromCharCode(65+i)}</span><span>${escapeHtml(opt)}</span><span class="tick">✓</span>`;
+    b.onclick = ()=>{ answers[step.id]=opt; box.querySelectorAll('.choice').forEach(c=>c.classList.remove('sel')); b.classList.add('sel'); setTimeout(next,230); };
+    box.appendChild(b);
+  });
+  a.appendChild(box);
+  controls(a,{});
+  keyPicker(step.options.length, i=>box.children[i].click());
+}
+
+function buildMulti(step,a){
+  const cur = new Set(answers[step.id]||[]);
+  const box = document.createElement('div'); box.className="choices";
+  step.options.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className="choice"+(cur.has(opt)?" sel":"");
+    b.type="button";
+    b.innerHTML = `<span class="key">${String.fromCharCode(65+i)}</span><span>${escapeHtml(opt)}</span><span class="tick">✓</span>`;
+    b.onclick = ()=>{
+      if(cur.has(opt)){ cur.delete(opt); b.classList.remove('sel'); }
+      else{
+        if(step.max && cur.size>=step.max){ showErr(`You can pick up to ${step.max}. Tap one to swap.`); return; }
+        cur.add(opt); b.classList.add('sel'); showErr("");
+      }
+    };
+    box.appendChild(b);
+  });
+  a.appendChild(box);
+  errBox(a);
+  const primary = makePrimary("OK");
+  primary.onclick = ()=>{
+    if(cur.size===0){ showErr("Pick at least one to continue."); return; }
+    answers[step.id]=[...cur]; next();
+  };
+  controls(a,{primary});
+  keyPicker(step.options.length, i=>box.children[i].click(), ()=>primary.click());
+}
+
+function buildScale(step,a){
+  const wrap = document.createElement('div');
+  const row = document.createElement('div'); row.className="scale";
+  for(let n=step.min;n<=step.max;n++){
+    const b=document.createElement('button'); b.type="button"; b.textContent=n;
+    if(answers[step.id]===n) b.classList.add('sel');
+    b.onclick=()=>{ answers[step.id]=n; row.querySelectorAll('button').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); setTimeout(next,230); };
+    row.appendChild(b);
+  }
+  wrap.appendChild(row);
+  const lab=document.createElement('div'); lab.className="scalelabels";
+  lab.innerHTML=`<span>${escapeHtml(step.minLabel)}</span><span>${escapeHtml(step.maxLabel)}</span>`;
+  wrap.appendChild(lab);
+  a.appendChild(wrap);
+  controls(a,{});
+  setKey(e=>{
+    if(e.ctrlKey||e.metaKey||e.altKey) return;
+    if(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA") return;
+    const v=parseInt(e.key,10);
+    if(v>=step.min && v<=step.max){ e.preventDefault(); row.children[v-step.min].click(); }
+  });
+}
+
+function buildContact(step,a){
+  const g=document.createElement('div'); g.className="grid";
+  const stored = answers[step.id]||{};
+  step.fields.forEach(f=>{
+    const cell=document.createElement('div'); cell.className="field"+(f.full?" full":"");
+    cell.innerHTML = `<label>${escapeHtml(f.label)} ${f.opt?'<span class="opt">(optional)</span>':''}</label>`;
+    const inp=document.createElement('input');
+    inp.type=f.type; inp.placeholder=f.ph||""; inp.value=stored[f.key]||""; inp.dataset.key=f.key;
+    if(f.type==="email") inp.autocomplete="email";
+    cell.appendChild(inp); g.appendChild(cell);
+  });
+  a.appendChild(g);
+  errBox(a);
+  const primary = makePrimary("Submit");
+  primary.onclick = ()=>submit(step, g, primary);
+  controls(a,{primary});
+  g.addEventListener('keydown',e=>{ if(e.key==="Enter"){ e.preventDefault(); primary.click(); } });
+  setTimeout(()=>g.querySelector('input').focus(),60);
+}
+
+/* keyboard A/B/C… picker for choice questions.
+   Strict: only a real single letter key counts — named keys like "CapsLock",
+   "Shift", "Enter", "Tab", "ArrowUp" are ignored, and modifiers are skipped. */
+function keyPicker(count, pick, onEnter){
+  setKey(e=>{
+    if(e.ctrlKey||e.metaKey||e.altKey) return;
+    if(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA") return;
+    if(e.key==="Enter"){ if(onEnter){ e.preventDefault(); onEnter(); } return; }
+    if(e.key.length!==1) return;                 // ignores CapsLock, Shift, Tab, arrows…
+    const i = e.key.toUpperCase().charCodeAt(0)-65;
+    if(i>=0 && i<count){ e.preventDefault(); pick(i); }
+  });
+}
+
+/* ---------- statement / success ---------- */
+function renderStatement(step){
+  const d=document.createElement('div'); d.className="center";
+  d.innerHTML = `
+    <h1 class="big">${fill(step.title)}</h1>
+    <p class="sub">${fill(step.sub)}</p>
+    <div class="meta">${(step.meta||[]).map(m=>`<span>${m}</span>`).join("")}</div>`;
+  const btn=makePrimary(step.cta||"Start"); btn.classList.add('big-cta');
+  btn.onclick=next; d.appendChild(btn);
+  panel.appendChild(d);
+  setKey(e=>{ if(e.key==="Enter"){ e.preventDefault(); btn.click(); } });
+}
+
+function renderSuccess(){
+  bar.style.width="100%";
+  const d=document.createElement('div'); d.className="center";
+  d.innerHTML = `
+    <div class="success-emoji">🌊</div>
+    <h1 class="big">Thank you, ${escapeHtml(name())}!</h1>
+    <p class="sub">Your answers are in. We'll use them to shape a workshop that actually fits the room — and you. See you soon at <b>SEASAT Advocacy Leadership &amp; Coalition Building</b>. 💚</p>`;
+  panel.appendChild(d);
+}
+
+/* ---------- submit ---------- */
+async function submit(step, grid, primary){
+  // validate contact fields
+  const data={};
+  for(const f of step.fields){
+    const inp=grid.querySelector(`input[data-key="${f.key}"]`);
+    const v=inp.value.trim();
+    if(f.required && !v){ showErr(`Please add your ${f.label.toLowerCase()}.`); inp.focus(); return; }
+    if(f.type==="email" && v && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){ showErr("That email doesn't look quite right."); inp.focus(); return; }
+    data[f.key]=v;
+  }
+  answers[step.id]=data;
+  showErr("");
+
+  primary.disabled=true;
+  primary.innerHTML=`<span class="spinner"></span> Sending…`;
+
+  const payload = buildPayload();
+
+  if(FORMSPREE_ID==="YOUR_FORM_ID"){
+    console.warn("Formspree not configured. Submission payload:", payload);
+    showErr("⚠️ Demo mode: add your Formspree ID in index.html to collect responses. (Your answers were logged to the console.)");
+    setTimeout(()=>{ idx++; render(); }, 900);
+    return;
+  }
+
+  try{
+    const res = await fetch(FORMSPREE_ENDPOINT,{
+      method:"POST",
+      headers:{ "Content-Type":"application/json", "Accept":"application/json" },
+      body: JSON.stringify(payload)
+    });
+    if(res.ok){ idx++; render(); }
+    else{
+      const j = await res.json().catch(()=>({}));
+      const msg = (j.errors && j.errors.map(e=>e.message).join(", ")) || "Something went wrong sending your answers.";
+      showErr(msg+" Please try again.");
+      primary.disabled=false; primary.innerHTML=`Submit <span aria-hidden="true">→</span>`;
+    }
+  }catch(err){
+    showErr("Network hiccup — please check your connection and try again.");
+    primary.disabled=false; primary.innerHTML=`Submit <span aria-hidden="true">→</span>`;
+  }
+}
+
+/* flatten answers into readable, emailable fields for Formspree */
+function buildPayload(){
+  const labelFor = {
+    first_name:"First name", age_band:"Age", current_role:"Current role",
+    causes:"Causes they care about", community_change:"One thing they'd change",
+    unfair_moment:"A moment that felt unfair", experience:"Advocacy experience",
+    actions_taken:"Actions taken before", focus_clarity:"Focus clarity (1-5)",
+    speaking_comfort:"Public speaking comfort (1-5)", allies:"Existing allies",
+    goals:"Hopes for the workshop", anything_else:"Anything else"
+  };
+  const out={ _subject:`SEASAT workshop — new sign-up: ${name()}` };
+  for(const [k,v] of Object.entries(answers)){
+    if(k==="contact"){
+      out["Full name"]=v.full_name; out["Country"]=v.country; out["Email"]=v.email;
+      out["LinkedIn"]=v.linkedin||"—"; out["Instagram"]=v.instagram||"—";
+      out["email"]=v.email; // Formspree reply-to convenience
+    } else {
+      out[labelFor[k]||k] = Array.isArray(v)? v.join(", ") : v;
+    }
+  }
+  return out;
+}
+
+/* ---------- navigation ---------- */
+function next(){ idx++; render(); }
+function back(){ if(idx>0){ idx--; render(); } }
+
+render();
+</script>
+</body>
+</html>
